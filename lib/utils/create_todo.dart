@@ -2,7 +2,15 @@ import "package:flutter/material.dart";
 import "package:to_do_app/utils/button.dart";
 
 class CreateToDo extends StatelessWidget {
-  const CreateToDo({super.key});
+  final controller;
+  VoidCallback onSave;
+  VoidCallback onCancel;
+
+  CreateToDo(
+      {super.key,
+      required this.controller,
+      required this.onSave,
+      required this.onCancel});
 
   @override
   Widget build(BuildContext context) {
@@ -10,13 +18,20 @@ class CreateToDo extends StatelessWidget {
       backgroundColor: Colors.yellow[300],
       content: Container(
         height: 120,
-        child: Column(children: [
+        child:
+            Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
           TextField(
+            controller: controller,
             decoration: InputDecoration(
                 border: OutlineInputBorder(), hintText: "Add todo"),
           ),
           Row(
-            children: [MyButton()],
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              MyButton(text: "Create task", onPress: onSave),
+              const SizedBox(width: 8),
+              MyButton(text: "Cancel", onPress: onCancel)
+            ],
           )
         ]),
       ),

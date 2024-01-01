@@ -10,8 +10,10 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final _controller = TextEditingController();
+
   List todoList = [
-    ["Learn flutter", false],
+    ["Love Ishita", false],
     ["Go to gym", true]
   ];
 
@@ -21,12 +23,30 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  void saveNewTask() {
+    setState(() {
+      todoList.add([_controller.text, false]);
+      Navigator.of(context).pop();
+      _controller.clear();
+    });
+  }
+
   void openDialogue(context) {
     showDialog(
         context: context,
         builder: (context) {
-          return CreateToDo();
+          return CreateToDo(
+            controller: _controller,
+            onSave: saveNewTask,
+            onCancel: () => Navigator.of(context).pop(),
+          );
         });
+  }
+
+  void deleteTodo(int index) {
+    setState(() {
+      todoList.removeAt(index);
+    });
   }
 
   @override
@@ -50,7 +70,8 @@ class _HomePageState extends State<HomePage> {
           return ToDoTile(
               taskName: todoList[index][0],
               taskStatus: todoList[index][1],
-              onChanged: (value) => checkboxChanged(value, index));
+              onChanged: (value) => checkboxChanged(value, index),
+              onDelete: (context) => deleteTodo(index));
         },
       ),
       backgroundColor: Colors.yellow[200],

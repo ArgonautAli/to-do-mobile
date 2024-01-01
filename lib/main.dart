@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:to_do_app/pages/home_page.dart';
 
-void main() {
+void main() async {
+  // init HIVE
+
   runApp(const MyApp());
 }
 
